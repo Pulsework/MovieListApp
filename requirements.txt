@@ -1,0 +1,5 @@
+streamlit
+option_menu
+database
+deta
+os
