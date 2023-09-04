@@ -74,13 +74,16 @@ if selected == "Add Movie":
 
 if selected == "View Movie List":
     st.title("Movie List")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         st.markdown("<h4 style='text-align: center; color: #ffbd45;'>Felix</h1>", unsafe_allow_html=True)
 
     with col2:
         st.markdown("<h4 style='text-align: center; color: #60b4ff;'>Jake</h1>", unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("<h4 style='text-align: center; color: #3dc64a;'>Other</h1>", unsafe_allow_html=True)
 
     all_movies = db.fetch_all_movies()
 
@@ -95,15 +98,15 @@ if selected == "View Movie List":
             if addedBy == "Felix":
                 with st.expander(str(f":orange[{title}]")):
                     st.write(year)
-                    st.write("Added by: " + str(addedBy))
                     st.write(comment)
+                    st.write("Added by: " + f":orange[{addedBy}]")
             elif addedBy == "Jake":
                 with st.expander(str(f":blue[{title}]")):
                     st.write(year)
-                    st.write("Added by: " + str(addedBy))
                     st.write(comment)
+                    st.write("Added by: " + f":blue[{addedBy}]")
             else:
                 with st.expander(str(f":green[{title}]")):
                     st.write(year)
-                    st.write("Added by: " + str(addedBy))
                     st.write(comment)
+                    st.write("Added by: " + f":green[{addedBy}]")
