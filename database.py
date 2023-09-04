@@ -3,10 +3,8 @@ import streamlit as st
 
 from deta import Deta
 
-DETA_KEY = "b0lebgxq9jl_bWGx2X1SDMa7gvcKu88A2z7yr59nihyc"
-
 # Load the environment variables
-# DETA_KEY = st.secrets["DETA_KEY"]
+DETA_KEY = st.secrets["DETA_KEY"]
 
 # Initialize with a project key
 deta = Deta(DETA_KEY)
