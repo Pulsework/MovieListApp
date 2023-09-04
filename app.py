@@ -47,34 +47,63 @@ selected = option_menu(
 if selected == "Add Movie":
     st.header("Add New Movie")
     with st.form("movie_form", clear_on_submit=True):
-        col1, col2 = st.columns(2)
         st.markdown(title_format, unsafe_allow_html=True)
         st.text_input("", placeholder="Enter movie title", key="movieTitle")
         st.markdown(year_format, unsafe_allow_html=True)
         st.slider("", 1970, 2030, value=datetime.today().year, step=1, key="year")
+        "---"
+        st.radio(
+            "Added By:",
+            ["Jake", "Felix", "Other"],
+            key="addedBy"
+        )
 
         "---"
         with st.expander("Comment"):
             comment = st.text_area("", placeholder="Enter a comment for this movie...")
 
+        st.caption("Copy movie description and IMDB rating from Google")
         "---"
         submitted = st.form_submit_button("Add Movie")
         if submitted:
             movie_title = str(st.session_state["movieTitle"])
             release_year = str(st.session_state["year"])
-            db.insert_movie(movie_title, release_year, comment)
+            added_by = str(st.session_state["addedBy"])
+            db.insert_movie(movie_title, release_year, comment, added_by)
             st.success("Movie added!")
 
 if selected == "View Movie List":
-    st.header("Movie List")
+    st.title("Movie List")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("<h4 style='text-align: center; color: #ffbd45;'>Felix</h1>", unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("<h4 style='text-align: center; color: #60b4ff;'>Jake</h1>", unsafe_allow_html=True)
+
     all_movies = db.fetch_all_movies()
 
     if len(all_movies) != 0:
+        st.write("Count: " + str(len(all_movies)))
         for item in all_movies:
             title = item.get("key")
             year = item.get("year")
             comment = item.get("comment")
+            addedBy = item.get("addedBy")
 
-            with st.expander(title):
-                st.write(year)
-                st.write(comment)
+            if addedBy == "Felix":
+                with st.expander(str(f":orange[{title}]")):
+                    st.write(year)
+                    st.write("Added by: " + str(addedBy))
+                    st.write(comment)
+            elif addedBy == "Jake":
+                with st.expander(str(f":blue[{title}]")):
+                    st.write(year)
+                    st.write("Added by: " + str(addedBy))
+                    st.write(comment)
+            else:
+                with st.expander(str(f":green[{title}]")):
+                    st.write(year)
+                    st.write("Added by: " + str(addedBy))
+                    st.write(comment)
